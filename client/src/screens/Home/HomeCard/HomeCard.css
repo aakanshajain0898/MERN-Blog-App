@@ -1,0 +1,24 @@
+.home-card {
+  max-width: 500px;
+  height: max-content;
+  margin: 26px auto !important;
+}
+
+.home-card-header {
+  border-bottom: 1px solid grey;
+  padding: 5px;
+}
+
+.home-card-header > img {
+  width: 30px;
+  height: 30px;
+}
+
+.home-card-header-content {
+  display: inline;
+  padding-left: 5px;
+}
+
+.card-content span {
+  font-weight: 500;
+}

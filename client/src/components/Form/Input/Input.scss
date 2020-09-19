@@ -1,0 +1,43 @@
+$primary_color: rgb(8, 93, 252);
+$error_color: red;
+
+@mixin color($color) {
+  color: $color !important;
+}
+
+@mixin border_bottom($color) {
+  border-bottom: 1px solid $color !important;
+}
+
+@mixin box_shadow($color) {
+  box-shadow: 0 1px 0 0 $color !important;
+}
+
+@mixin box($color) {
+  @include border_bottom($color);
+  @include box_shadow($color);
+}
+
+.input-field {
+  /* invalid color */
+  .invalid,
+  input.invalid + label.active {
+    @include color($error_color);
+  }
+
+  input.invalid {
+    &:focus {
+      @include box($error_color);
+    }
+  }
+
+  /* label underline focus color */
+  input:focus,
+  input.valid {
+    @include box($primary_color);
+  }
+
+  input:focus + label {
+    @include color($primary_color);
+  }
+}

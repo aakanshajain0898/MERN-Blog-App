@@ -1,0 +1,82 @@
+version: '3.7'
+services:
+  client:
+    build: ./client
+    # context: ./client
+    # dockerfile: Dockerfile
+    command: npm start
+    image: myapp-client
+    container_name: client
+    restart: unless-stopped
+    ports:
+      - '3001:3000'
+    # volumes:
+    #   - ./client/:/usr/app
+    # - /usr/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    depends_on: -server
+    networks:
+      - app-network
+  # tests:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./:/frontend
+  #     - /frontend/node_modules
+  #   command: ['npm', 'run', 'test']
+  server:
+    build:
+      ./server
+      # context: ./server
+      # dockerfile: Dockerfile
+    image: myapp-server
+    container_name: backend
+    command: /usr/src/app/node_modules/.bin/nodemon app.js
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    ports: -'5000:5000'
+    depends_on:
+      - mongo
+    env_file: ./server/.env
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - '27017:27017'
+    # restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - app-network
+
+
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+  node_modules:
+  web-root:
+    driver: local

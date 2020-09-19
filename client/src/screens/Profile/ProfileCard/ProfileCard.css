@@ -1,0 +1,29 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.profile-card {
+  max-width: 550px;
+  margin: 0px auto;
+}
+
+.profile-card-content {
+  margin: 18px 0px;
+  border-bottom: 1px solid grey;
+}
+
+.profile-card-content-body {
+  display: flex;
+  justify-content: space-around;
+}
+
+.profile-card-content-body > img {
+  width: 160px;
+  height: 160px;
+}
+
+.item {
+  width: 30%;
+}

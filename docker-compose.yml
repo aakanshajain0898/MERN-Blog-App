@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    stdin_open: true
+    build: ./client
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./client/:/usr/src/fe/app
+      - /usr/src/fe/app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build: ./server
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./server/:/usr/src/be/app
+      - /usr/src/be/app/node_modules
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - data-volume:/data/db
+
+volumes:
+  data-volume:
+  node_modules:
